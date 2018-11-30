@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"gopkg.in/mgo.v2/bson"
@@ -13,13 +14,17 @@ type User struct {
 }
 
 type UserInsert struct {
-	ID        bson.ObjectId `json:"-"`
+	ID        bson.ObjectId `json:"-" bson:"_id,omitempty"`
 	FirstName string        `json:"first_name" bson:"first_name"`
 	LastName  string        `json:"last_name" bson:"last_name"`
 }
 
-func (s *BankServiceImp) addUser(UserInsert) error {
-
+func (s *BankServiceImp) addUser(u UserInsert) error {
+	err := s.db.C("users").Insert(u)
+	if err != nil {
+		fmt.Println("can't Insert to db")
+		return err
+	}
 	return nil
 }
 
@@ -48,12 +53,12 @@ func (s *BankServiceImp) deleteUserByID(id string) error {
 	return nil
 }
 
-func (s *BankServiceImp) addUserBankAccByID(string) error {
+func (s *BankServiceImp) addBankAccByUserID(string) error {
 
 	return nil
 }
 
-func (s *BankServiceImp) getUserBankAccByID(string) error {
+func (s *BankServiceImp) getBankAccByUserID(string) error {
 
 	return nil
 }

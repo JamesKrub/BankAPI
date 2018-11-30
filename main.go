@@ -29,8 +29,8 @@ type BankService interface {
 	getUserByID(string) (User, error)
 	updateUserByID(string) error
 	deleteUserByID(string) error
-	addUserBankAccByID(string) error
-	getUserBankAccByID(string) error
+	addBankAccByUserID(string) error
+	getBankAccByUserID(string) error
 }
 
 func main() {
