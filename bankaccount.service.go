@@ -38,7 +38,7 @@ func (s *Server) addBankAccount(c *gin.Context) {
 		return
 	}
 
-	if count <= 0 {
+	if count != 0 {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"object":  "error",
 			"message": "Duplicate bank account number",
