@@ -56,6 +56,7 @@ func (s *Server) getUser(c *gin.Context) {
 			"object":  "error",
 			"message": fmt.Sprintf("[getUser] getUserByID got error: %v", err),
 		})
+		return
 	}
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"object": "success",
@@ -90,6 +91,34 @@ func (s *Server) deleteUser(c *gin.Context) {
 			"object":  "error",
 			"message": fmt.Sprintf("[delelteUser] deleteUserByID got error: %v", err),
 		})
+	}
+
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
+}
+
+func (s *Server) addBankAccount(c *gin.Context) {
+	var acc UserBankAccountInsert
+	id := c.Param("id")
+	acc.UserID = id
+
+	_, err := s.bankService.getUserByID(id)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[getUser] getUserByID got error: %v", err),
+		})
+		return
+	}
+
+	err = s.bankService.addBankAccByUserID(acc)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[addBankAccount] addBankAccByUserID got error: %v", err),
+		})
+		return
 	}
 
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{

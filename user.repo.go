@@ -8,15 +8,14 @@ import (
 )
 
 type User struct {
-	ID        bson.ObjectId `json:"_id" bson:"_id"`
+	ID        bson.ObjectId `json:"id" bson:"_id"`
 	FirstName string        `json:"first_name" bson:"first_name"`
 	LastName  string        `json:"last_name" bson:"last_name"`
 }
 
 type UserInsert struct {
-	ID        bson.ObjectId `json:"-" bson:"_id,omitempty"`
-	FirstName string        `json:"first_name" bson:"first_name"`
-	LastName  string        `json:"last_name" bson:"last_name"`
+	FirstName string `json:"first_name" bson:"first_name"`
+	LastName  string `json:"last_name" bson:"last_name"`
 }
 
 type UserUpdate struct {
@@ -74,12 +73,7 @@ func (s *BankServiceImp) deleteUserByID(id string) error {
 	return nil
 }
 
-func (s *BankServiceImp) addBankAccByUserID(string) error {
+func (s *BankServiceImp) countUserByID(id string) (int, error) {
 
-	return nil
-}
-
-func (s *BankServiceImp) getBankAccByUserID(string) error {
-
-	return nil
+	return 0, nil
 }
