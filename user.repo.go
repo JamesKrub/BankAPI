@@ -65,7 +65,12 @@ func (s *BankServiceImp) updateUserByID(u UserUpdate) error {
 }
 
 func (s *BankServiceImp) deleteUserByID(id string) error {
-
+	selector := bson.M{"_id": bson.ObjectIdHex(id)}
+	err := s.db.C("users").Remove(selector)
+	if err != nil {
+		fmt.Println("can't delete user")
+		return err
+	}
 	return nil
 }
 

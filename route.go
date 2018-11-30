@@ -18,6 +18,7 @@ func setupRoute(s *Server) *gin.Engine {
 	users.GET("/", s.getAllUser)
 	users.GET("/:id", s.getUser)
 	users.PUT("/:id", s.updateUser)
+	users.DELETE("/:id", s.deleteUser)
 
 	return r
 }

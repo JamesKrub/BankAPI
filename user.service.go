@@ -43,7 +43,7 @@ func (s *Server) addUser(c *gin.Context) {
 		})
 		return
 	}
-	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"object": "success",
 	})
 }
@@ -76,6 +76,22 @@ func (s *Server) updateUser(c *gin.Context) {
 			"message": fmt.Sprintf("[updateUser] updateUserByID got error: %v", err),
 		})
 	}
+
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
+}
+
+func (s *Server) deleteUser(c *gin.Context) {
+	id := c.Param("id")
+	err := s.bankService.deleteUserByID(id)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[delelteUser] deleteUserByID got error: %v", err),
+		})
+	}
+
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"object": "success",
 	})
