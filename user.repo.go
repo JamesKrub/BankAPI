@@ -19,6 +19,12 @@ type UserInsert struct {
 	LastName  string        `json:"last_name" bson:"last_name"`
 }
 
+type UserUpdate struct {
+	ID        bson.ObjectId `json:"-" bson:"_id,omitempty"`
+	FirstName string        `json:"first_name" bson:"first_name"`
+	LastName  string        `json:"last_name" bson:"last_name"`
+}
+
 func (s *BankServiceImp) addUser(u UserInsert) error {
 	err := s.db.C("users").Insert(u)
 	if err != nil {
@@ -40,7 +46,8 @@ func (s *BankServiceImp) getAllUser() ([]User, error) {
 
 func (s *BankServiceImp) getUserByID(id string) (User, error) {
 	var u User
-	err := s.db.C("users").Find(nil).One(&u)
+	selector := bson.M{"_id": bson.ObjectIdHex(id)}
+	err := s.db.C("users").Find(selector).One(&u)
 	if err != nil {
 		fmt.Println("can't get user data")
 		return u, err
@@ -49,8 +56,11 @@ func (s *BankServiceImp) getUserByID(id string) (User, error) {
 	return u, nil
 }
 
-func (s *BankServiceImp) updateUserByID(id string) error {
-
+func (s *BankServiceImp) updateUserByID(u UserUpdate) error {
+	err := s.db.C("users").Update(bson.M{"_id": u.ID}, bson.M{"$set": u})
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

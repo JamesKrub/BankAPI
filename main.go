@@ -27,7 +27,7 @@ type BankService interface {
 	addUser(UserInsert) error
 	getAllUser() ([]User, error)
 	getUserByID(string) (User, error)
-	updateUserByID(string) error
+	updateUserByID(UserUpdate) error
 	deleteUserByID(string) error
 	addBankAccByUserID(string) error
 	getBankAccByUserID(string) error

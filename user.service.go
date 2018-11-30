@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -58,5 +60,23 @@ func (s *Server) getUser(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"object": "success",
 		"data":   u,
+	})
+}
+
+func (s *Server) updateUser(c *gin.Context) {
+	var u UserUpdate
+	id := c.Param("id")
+
+	c.ShouldBindJSON(&u)
+	u.ID = bson.ObjectIdHex(id)
+	err := s.bankService.updateUserByID(u)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[updateUser] updateUserByID got error: %v", err),
+		})
+	}
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
 	})
 }
