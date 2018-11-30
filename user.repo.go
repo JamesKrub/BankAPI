@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 
-	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -14,16 +13,9 @@ type User struct {
 }
 
 func (s *BankServiceImp) getAllListUser() ([]User, error) {
-	session, err := mgo.Dial("mongodb://127.0.0.1:27017/bank")
-	if err != nil {
-		panic(err)
-	}
-	defer session.Close()
-	session.SetMode(mgo.Monotonic, true)
-
 	var us []User
-	c := session.DB("bank").C("users")
-	err = c.Find(nil).All(&us)
+
+	err := s.db.C("users").Find(nil).All(&us)
 	if err != nil {
 		log.Fatal(err)
 	}
