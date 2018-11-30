@@ -74,6 +74,11 @@ func (s *BankServiceImp) deleteUserByID(id string) error {
 }
 
 func (s *BankServiceImp) countUserByID(id string) (int, error) {
-
-	return 0, nil
+	selector := bson.M{"_id": bson.ObjectId(id)}
+	count, err := s.db.C("users").Find(selector).Count()
+	if err != nil {
+		fmt.Println("can't count user")
+		return 0, err
+	}
+	return count, nil
 }

@@ -103,7 +103,7 @@ func (s *Server) addBankAccount(c *gin.Context) {
 	id := c.Param("id")
 	acc.UserID = id
 
-	_, err := s.bankService.getUserByID(id)
+	count, err := s.bankService.countUserByID(id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"object":  "error",
@@ -112,14 +112,16 @@ func (s *Server) addBankAccount(c *gin.Context) {
 		return
 	}
 
-	err = s.bankService.addBankAccByUserID(acc)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"object":  "error",
-			"message": fmt.Sprintf("[addBankAccount] addBankAccByUserID got error: %v", err),
-		})
-		return
-	}
+	fmt.Println(count)
+
+	// err = s.bankService.addBankAccByUserID(acc)
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+	// 		"object":  "error",
+	// 		"message": fmt.Sprintf("[addBankAccount] addBankAccByUserID got error: %v", err),
+	// 	})
+	// 	return
+	// }
 
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"object": "success",
