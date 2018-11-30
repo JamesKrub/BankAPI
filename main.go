@@ -31,6 +31,7 @@ type BankService interface {
 	deleteUserByID(string) error
 	countUserByID(string) (int, error)
 	addBankAccByUserID(UserBankAccountInsert) error
+	countBankAccByBankAccID(string) (int, error)
 	getBankAccByUserID(string) error
 }
 

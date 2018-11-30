@@ -30,6 +30,16 @@ func (s *BankServiceImp) addBankAccByUserID(ac UserBankAccountInsert) error {
 	return nil
 }
 
+func (s *BankServiceImp) countBankAccByBankAccID(id string) (int, error) {
+	selector := bson.M{"account_number": id}
+	count, err := s.db.C("users").Find(selector).Count()
+	if err != nil {
+		fmt.Println("can't insert user bank acconut")
+		return 0, err
+	}
+	return count, nil
+}
+
 func (s *BankServiceImp) getBankAccByUserID(string) error {
 
 	return nil
