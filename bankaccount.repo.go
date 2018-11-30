@@ -21,6 +21,11 @@ type UserBankAccountInsert struct {
 	Balance       int    `json:"balance" bson:"balance"`
 }
 
+type Transfer struct {
+	ID     bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Amount int           `json:"amount" bson:"balance"`
+}
+
 func (b *BankServiceImp) addBankAccByUserID(ac UserBankAccountInsert) error {
 	err := b.db.C("accounts").Insert(ac)
 	if err != nil {
@@ -61,6 +66,38 @@ func (b *BankServiceImp) deleteBankAccByBankAccID(id string) error {
 	return nil
 }
 
-func (b *BankServiceImp) depositByAccID(id string) error {
+func (b *BankServiceImp) depositByAccID(t Transfer) error {
+	var acc UserBankAccount
+	err := b.db.C("accounts").Find(bson.M{"_id": t.ID}).One(&acc)
+	if err != nil {
+		fmt.Println("can't get acc detail")
+		return err
+	}
+
+	t.Amount = t.Amount + acc.Balance
+
+	err = b.db.C("accounts").Update(bson.M{"_id": t.ID}, bson.M{"$set": bson.M{"balance": t.Amount}})
+	if err != nil {
+		fmt.Println("can't deposit")
+		return err
+	}
+	return nil
+}
+
+func (b *BankServiceImp) withdrawByAccID(t Transfer) error {
+	var acc UserBankAccount
+	err := b.db.C("accounts").Find(bson.M{"_id": t.ID}).One(&acc)
+	if err != nil {
+		fmt.Println("can't get acc detail")
+		return err
+	}
+
+	t.Amount = t.Amount - acc.Balance
+
+	err = b.db.C("accounts").Update(bson.M{"_id": t.ID}, bson.M{"$set": bson.M{"balance": t.Amount}})
+	if err != nil {
+		fmt.Println("can't deposit")
+		return err
+	}
 	return nil
 }

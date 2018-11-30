@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func (s *Server) addBankAccount(c *gin.Context) {
@@ -94,5 +95,41 @@ func (s *Server) deleteBankAcconut(c *gin.Context) {
 }
 
 func (s *Server) deposit(c *gin.Context) {
-	// id := c.Param("id")
+	id := c.Param("id")
+	var t Transfer
+	c.ShouldBindJSON(&t)
+	t.ID = bson.ObjectIdHex(id)
+
+	err := s.bankService.depositByAccID(t)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[deposit] deposit  got error: %v", err),
+		})
+		return
+	}
+
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
+}
+
+func (s *Server) withdraw(c *gin.Context) {
+	id := c.Param("id")
+	var t Transfer
+	c.ShouldBindJSON(&t)
+	t.ID = bson.ObjectIdHex(id)
+
+	err := s.bankService.withdrawByAccID(t)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[deposit] deposit  got error: %v", err),
+		})
+		return
+	}
+
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
 }
