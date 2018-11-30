@@ -40,6 +40,12 @@ func (s *BankServiceImp) getAllUser() ([]User, error) {
 
 func (s *BankServiceImp) getUserByID(id string) (User, error) {
 	var u User
+	err := s.db.C("users").Find(nil).One(&u)
+	if err != nil {
+		fmt.Println("can't get user data")
+		return u, err
+	}
+
 	return u, nil
 }
 
