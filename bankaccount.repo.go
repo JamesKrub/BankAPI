@@ -21,9 +21,15 @@ type UserBankAccountInsert struct {
 	Balance       int    `json:"balance" bson:"balance"`
 }
 
-type Transfer struct {
+type WithdrawDeposit struct {
 	ID     bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Amount int           `json:"amount" bson:"balance"`
+}
+
+type Ttransfer struct {
+	ID   bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	From int           `json:"from" bson:"balance"`
+	To   int           `json:"to" bson:"balance"`
 }
 
 func (b *BankServiceImp) addBankAccByUserID(ac UserBankAccountInsert) error {
@@ -66,7 +72,7 @@ func (b *BankServiceImp) deleteBankAccByBankAccID(id string) error {
 	return nil
 }
 
-func (b *BankServiceImp) depositByAccID(t Transfer) error {
+func (b *BankServiceImp) depositByAccID(t WithdrawDeposit) error {
 	var acc UserBankAccount
 	err := b.db.C("accounts").Find(bson.M{"_id": t.ID}).One(&acc)
 	if err != nil {
@@ -84,7 +90,7 @@ func (b *BankServiceImp) depositByAccID(t Transfer) error {
 	return nil
 }
 
-func (b *BankServiceImp) withdrawByAccID(t Transfer) error {
+func (b *BankServiceImp) withdrawByAccID(t WithdrawDeposit) error {
 	var acc UserBankAccount
 	err := b.db.C("accounts").Find(bson.M{"_id": t.ID}).One(&acc)
 	if err != nil {
@@ -99,5 +105,9 @@ func (b *BankServiceImp) withdrawByAccID(t Transfer) error {
 		fmt.Println("can't deposit")
 		return err
 	}
+	return nil
+}
+
+func (b *BankServiceImp) transfer(t WithdrawDeposit) error {
 	return nil
 }

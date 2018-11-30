@@ -8,6 +8,7 @@ func setupRoute(s *Server) *gin.Engine {
 	r := gin.Default()
 	users := r.Group("/users")
 	bank := r.Group("/bankAccounts")
+	transfer := r.Group("/transfer")
 	admin := r.Group("/admin")
 
 	admin.Use(gin.BasicAuth(gin.Accounts{
@@ -24,6 +25,7 @@ func setupRoute(s *Server) *gin.Engine {
 	bank.DELETE("/:id", s.deleteBankAcconut)
 	bank.PUT("/:id/deposit", s.deposit)
 	bank.PUT("/:id/withdraw", s.withdraw)
+	transfer.POST("/", s.transfer)
 
 	return r
 }

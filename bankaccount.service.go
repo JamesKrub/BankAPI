@@ -96,7 +96,7 @@ func (s *Server) deleteBankAcconut(c *gin.Context) {
 
 func (s *Server) deposit(c *gin.Context) {
 	id := c.Param("id")
-	var t Transfer
+	var t WithdrawDeposit
 	c.ShouldBindJSON(&t)
 	t.ID = bson.ObjectIdHex(id)
 
@@ -116,7 +116,7 @@ func (s *Server) deposit(c *gin.Context) {
 
 func (s *Server) withdraw(c *gin.Context) {
 	id := c.Param("id")
-	var t Transfer
+	var t WithdrawDeposit
 	c.ShouldBindJSON(&t)
 	t.ID = bson.ObjectIdHex(id)
 
@@ -132,4 +132,8 @@ func (s *Server) withdraw(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"object": "success",
 	})
+}
+
+func (s *Server) transfer(c *gin.Context) {
+
 }
