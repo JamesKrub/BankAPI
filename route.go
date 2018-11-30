@@ -7,12 +7,14 @@ import (
 func setupRoute(s *Server) *gin.Engine {
 	r := gin.Default()
 	users := r.Group("/users")
-	bank := r.Group("/bankAccounts")
+	// bank := r.Group("/bankAccounts")
 	admin := r.Group("/admin")
 
 	admin.Use(gin.BasicAuth(gin.Accounts{
 		"admin": "p",
 	}))
+
+	users.GET("/", s.getAllUser)
 
 	return r
 }
