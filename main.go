@@ -34,6 +34,7 @@ type BankService interface {
 	countBankAccByBankAccID(string) (int, error)
 	getBankAccByUserID(string) ([]UserBankAccount, error)
 	deleteBankAccByBankAccID(string) error
+	depositByAccID(string) error
 }
 
 func main() {

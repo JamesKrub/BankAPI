@@ -22,6 +22,7 @@ func setupRoute(s *Server) *gin.Engine {
 	users.POST("/:id/bankAccounts", s.addBankAccount)
 	users.GET("/:id/bankAccounts", s.getBankAccount)
 	bank.DELETE("/:id", s.deleteBankAcconut)
+	bank.DELETE("/:id/deposit", s.deposit)
 
 	return r
 }

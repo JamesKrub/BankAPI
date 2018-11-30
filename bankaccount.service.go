@@ -92,3 +92,7 @@ func (s *Server) deleteBankAcconut(c *gin.Context) {
 		"object": "success",
 	})
 }
+
+func (s *Server) deposit(c *gin.Context) {
+	// id := c.Param("id")
+}

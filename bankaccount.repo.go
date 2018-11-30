@@ -52,11 +52,15 @@ func (b *BankServiceImp) getBankAccByUserID(id string) ([]UserBankAccount, error
 }
 
 func (b *BankServiceImp) deleteBankAccByBankAccID(id string) error {
-	selector := bson.M{"account_number": id}
+	selector := bson.M{"_id": bson.ObjectIdHex(id)}
 	err := b.db.C("accounts").Remove(selector)
 	if err != nil {
-		fmt.Println("can't delelte bank acconut by user id")
+		fmt.Println("can't delelte bank acconut by id")
 		return err
 	}
+	return nil
+}
+
+func (b *BankServiceImp) depositByAccID(id string) error {
 	return nil
 }
