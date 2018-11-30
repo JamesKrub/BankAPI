@@ -41,6 +41,12 @@ func (s *BankServiceImp) countBankAccByBankAccID(id string) (int, error) {
 }
 
 func (s *BankServiceImp) getBankAccByUserID(id string) ([]UserBankAccount, error) {
-
-	return nil, nil
+	var accs []UserBankAccount
+	selector := bson.M{"user_id": id}
+	err := s.db.C("accounts").Find(selector).All(&accs)
+	if err != nil {
+		fmt.Println("can't get bank acconut by user id")
+		return accs, err
+	}
+	return accs, nil
 }
