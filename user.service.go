@@ -5,5 +5,5 @@ import (
 )
 
 func (s *Server) getAllUser(c *gin.Context) {
-	s.bankService.getAllListUser()
+	s.bankService.getAllUser()
 }

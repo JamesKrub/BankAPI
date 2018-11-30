@@ -12,11 +12,25 @@ type Server struct {
 	secretService SecretService
 }
 
+type BankServiceImp struct {
+	db *mgo.Database
+}
+
+type SecertServiceImp struct {
+	db *mgo.Database
+}
+
 type SecretService interface {
 }
 
 type BankService interface {
-	getAllListUser() ([]User, error)
+	addUser(UserInsert) error
+	getAllUser() ([]User, error)
+	getUserByID(string) (User, error)
+	updateUserByID(string) error
+	deleteUserByID(string) error
+	addUserBankAccByID(string) error
+	getUserBankAccByID(string) error
 }
 
 func main() {
@@ -26,8 +40,8 @@ func main() {
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
-
 	db := session.DB("bank")
+
 	s := &Server{
 		db: session.DB("bank"),
 		bankService: &BankServiceImp{
@@ -39,12 +53,4 @@ func main() {
 	}
 	r := setupRoute(s)
 	r.Run(":" + os.Getenv("PORT"))
-}
-
-type BankServiceImp struct {
-	db *mgo.Database
-}
-
-type SecertServiceImp struct {
-	db *mgo.Database
 }
