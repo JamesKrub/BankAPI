@@ -32,7 +32,7 @@ type BankService interface {
 	countUserByID(string) (int, error)
 	addBankAccByUserID(UserBankAccountInsert) error
 	countBankAccByBankAccID(string) (int, error)
-	getBankAccByUserID(string) error
+	getBankAccByUserID(string) ([]UserBankAccount, error)
 }
 
 func main() {

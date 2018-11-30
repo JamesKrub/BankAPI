@@ -20,6 +20,7 @@ func setupRoute(s *Server) *gin.Engine {
 	users.PUT("/:id", s.updateUser)
 	users.DELETE("/:id", s.deleteUser)
 	users.POST("/:id/bankAccounts", s.addBankAccount)
+	users.GET("/:id/bankAccounts", s.getBankAccount)
 
 	return r
 }

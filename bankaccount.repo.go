@@ -40,7 +40,7 @@ func (s *BankServiceImp) countBankAccByBankAccID(id string) (int, error) {
 	return count, nil
 }
 
-func (s *BankServiceImp) getBankAccByUserID(string) error {
+func (s *BankServiceImp) getBankAccByUserID(id string) ([]UserBankAccount, error) {
 
-	return nil
+	return nil, nil
 }

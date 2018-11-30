@@ -76,7 +76,6 @@ func (s *BankServiceImp) deleteUserByID(id string) error {
 func (s *BankServiceImp) countUserByID(id string) (int, error) {
 	selector := bson.M{"_id": bson.ObjectIdHex(id)}
 	count, err := s.db.C("users").Find(selector).Count()
-	fmt.Println(id)
 	if err != nil {
 		fmt.Println("can't count user")
 		return 0, err
