@@ -1,8 +1,17 @@
 package main
 
-import "github.com/gin-gonic/gin"
+type Server struct {
+	bankService   BankService
+	secretService SecretService
+}
+
+type SecretService interface {
+	Insert(s *Secret) error
+}
+
+type BankService interface {
+}
 
 func main() {
-	r := gin.Default()
-	admin := r.Group("/admin/")
+	r := setupRoute(s)
 }
