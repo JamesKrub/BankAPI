@@ -51,9 +51,12 @@ func (s *Server) getUser(c *gin.Context) {
 	u, err := s.bankService.getUserByID(id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"object": "error",
-			"message": fmt.Sprintf("[getUser] getUserByID got error: %v", err)
+			"object":  "error",
+			"message": fmt.Sprintf("[getUser] getUserByID got error: %v", err),
 		})
 	}
-
+	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+		"object": "success",
+		"data":   u,
+	})
 }
