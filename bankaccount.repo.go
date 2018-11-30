@@ -92,7 +92,7 @@ func (b *BankServiceImp) withdrawByAccID(t Transfer) error {
 		return err
 	}
 
-	t.Amount = t.Amount - acc.Balance
+	t.Amount = acc.Balance - t.Amount
 
 	err = b.db.C("accounts").Update(bson.M{"_id": t.ID}, bson.M{"$set": bson.M{"balance": t.Amount}})
 	if err != nil {
