@@ -52,7 +52,7 @@ func (s *Server) getUser(c *gin.Context) {
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"object": "error",
-			"message": fmt.Sprintf("[getUser] getUserByID got error: %v", )
+			"message": fmt.Sprintf("[getUser] getUserByID got error: %v", err)
 		})
 	}
 
