@@ -76,3 +76,19 @@ func (s *Server) getBankAccount(c *gin.Context) {
 		"data":   accs,
 	})
 }
+
+func (s *Server) deleteBankAcconut(c *gin.Context) {
+	id := c.Param("id")
+	err := s.bankService.deleteBankAccByBankAccID(id)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[deleteBankAcconut] delete bank account got error: %v", err),
+		})
+		return
+	}
+
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
+}

@@ -33,6 +33,7 @@ type BankService interface {
 	addBankAccByUserID(UserBankAccountInsert) error
 	countBankAccByBankAccID(string) (int, error)
 	getBankAccByUserID(string) ([]UserBankAccount, error)
+	deleteBankAccByBankAccID(string) error
 }
 
 func main() {
