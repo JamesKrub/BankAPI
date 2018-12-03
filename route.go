@@ -25,6 +25,8 @@ func setupRoute(s *Server) *gin.Engine {
 	bank.DELETE("/:id", s.deleteBankAcconut)
 	bank.PUT("/:id/deposit", s.deposit)
 	bank.PUT("/:id/withdraw", s.withdraw)
+
+	transfer.Use(s.authBankAPI)
 	transfer.POST("/", s.transfer)
 
 	return r
