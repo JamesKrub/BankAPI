@@ -36,6 +36,8 @@ type BankService interface {
 	deleteBankAccByBankAccID(string) error
 	depositByAccID(WithdrawDeposit) error
 	withdrawByAccID(WithdrawDeposit) error
+	getBacnkAccDetailByBankAccID(string) (UserBankAccount, error)
+	transfer(Transfer) error
 }
 
 func main() {

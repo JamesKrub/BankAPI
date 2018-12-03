@@ -137,5 +137,29 @@ func (s *Server) withdraw(c *gin.Context) {
 func (s *Server) transfer(c *gin.Context) {
 	var t Transfer
 	c.ShouldBindJSON(&t)
+	r, err := s.bankService.getBacnkAccDetailByBankAccID(t.From)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[transfer] get bank acc detail by From ID got error: %v", err),
+		})
+		return
+	}
+	from := r.Balance
+
+	r, err = s.bankService.getBacnkAccDetailByBankAccID(t.To)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"object":  "error",
+			"message": fmt.Sprintf("[transfer] get bank acc detail by To ID got error: %v", err),
+		})
+		return
+	}
+	to := r.Balance
+
+	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+		"To":   to,
+		"From": from,
+	})
 
 }

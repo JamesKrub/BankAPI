@@ -28,9 +28,9 @@ type WithdrawDeposit struct {
 }
 
 type Transfer struct {
-	From   int `json:"from" bson:"balance"`
-	To     int `json:"to" bson:"balance"`
-	Amount int `json:"amount"`
+	From   string `json:"from" bson:"balance"`
+	To     string `json:"to" bson:"balance"`
+	Amount int    `json:"amount"`
 }
 
 func (b *BankServiceImp) addBankAccByUserID(ac UserBankAccountInsert) error {
@@ -63,7 +63,7 @@ func (b *BankServiceImp) getBankAccByUserID(id string) ([]UserBankAccount, error
 	return accs, nil
 }
 
-func (b *BankServiceImp) getBankAccDetailByBankAccID(id string) (UserBankAccount, error) {
+func (b *BankServiceImp) getBacnkAccDetailByBankAccID(id string) (UserBankAccount, error) {
 	var acc UserBankAccount
 	selector := bson.M{"_id": bson.ObjectIdHex(id)}
 	err := b.db.C("accounts").FindId(selector).One(&acc)
@@ -126,6 +126,7 @@ func (b *BankServiceImp) withdrawByAccID(t WithdrawDeposit) error {
 	return nil
 }
 
-func (b *BankServiceImp) transfer(t WithdrawDeposit) error {
+func (b *BankServiceImp) transfer(t Transfer) error {
+
 	return nil
 }
