@@ -19,3 +19,13 @@ func (b *BankServiceImp) addSecret(s Secret) error {
 	}
 	return nil
 }
+
+func (b *BankServiceImp) getSecret(s string) error {
+	selector := bson.M{"key": s}
+	_, err := b.db.C("secrets").Find(selector).Count()
+	if err != nil {
+		fmt.Println("can't count selected secret")
+		return err
+	}
+	return nil
+}

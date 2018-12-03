@@ -15,7 +15,7 @@ func setupRoute(s *Server) *gin.Engine {
 		"admin": "p",
 	}))
 
-	admin.POST("/admin", s.addSecrets)
+	admin.POST("/secrets", s.addSecrets)
 
 	users.Use(s.authBankAPI)
 	users.PUT("/:id", s.updateUser)

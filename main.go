@@ -39,7 +39,8 @@ type BankService interface {
 	getBacnkAccDetailByBankAccID(string) (UserBankAccount, error)
 	transfer(Transfer) error
 	rollBack(string, int) error
-	addSecret(s Secret) error
+	addSecret(Secret) error
+	getSecret(string) error
 }
 
 func main() {

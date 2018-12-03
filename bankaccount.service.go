@@ -9,7 +9,14 @@ import (
 )
 
 func (s *Server) authBankAPI(c *gin.Context) {
-
+	user, _, ok := c.Request.BasicAuth()
+	if ok {
+		err := s.bankService.getSecret(user)
+		if err == nil {
+			return
+		}
+	}
+	c.AbortWithStatus(http.StatusUnauthorized)
 }
 
 func (s *Server) addSecrets(c *gin.Context) {
