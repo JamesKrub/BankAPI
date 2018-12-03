@@ -66,7 +66,7 @@ func (b *BankServiceImp) getBankAccByUserID(id string) ([]UserBankAccount, error
 func (b *BankServiceImp) getBacnkAccDetailByBankAccID(id string) (UserBankAccount, error) {
 	var acc UserBankAccount
 	selector := bson.M{"_id": bson.ObjectIdHex(id)}
-	err := b.db.C("accounts").FindId(selector).One(&acc)
+	err := b.db.C("accounts").Find(selector).One(&acc)
 	if err != nil {
 		fmt.Println("can't get bank acconut detail by bank account id")
 		return acc, err

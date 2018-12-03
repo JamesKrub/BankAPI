@@ -189,28 +189,7 @@ func (s *Server) transfer(c *gin.Context) {
 		return
 	}
 
-	err = s.bankService.transfer(t)
-	if err != nil {
-		err = s.bankService.rollBack(t.From, from)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"object":  "error",
-				"message": fmt.Sprintf("[transfer] panic!! [From]recovery got error: %v", err),
-			})
-		}
-
-		err = s.bankService.rollBack(t.To, to)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"object":  "error",
-				"message": fmt.Sprintf("[transfer] panic!! [To]recovery got error: %v", err),
-			})
-		}
-
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"object":  "error",
-			"message": fmt.Sprintf("[transfer] transfer monety got error: %v {system roll back}", err),
-		})
-		return
-	}
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
 }
