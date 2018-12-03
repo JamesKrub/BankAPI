@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 
 	"gopkg.in/mgo.v2/bson"
@@ -26,10 +27,10 @@ type WithdrawDeposit struct {
 	Amount int           `json:"amount" bson:"balance"`
 }
 
-type Ttransfer struct {
-	ID   bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	From int           `json:"from" bson:"balance"`
-	To   int           `json:"to" bson:"balance"`
+type Transfer struct {
+	From   int `json:"from" bson:"balance"`
+	To     int `json:"to" bson:"balance"`
+	Amount int `json:"amount"`
 }
 
 func (b *BankServiceImp) addBankAccByUserID(ac UserBankAccountInsert) error {
@@ -60,6 +61,18 @@ func (b *BankServiceImp) getBankAccByUserID(id string) ([]UserBankAccount, error
 		return accs, err
 	}
 	return accs, nil
+}
+
+func (b *BankServiceImp) getBankAccDetailByBankAccID(id string) (UserBankAccount, error) {
+	var acc UserBankAccount
+	selector := bson.M{"_id": bson.ObjectIdHex(id)}
+	err := b.db.C("accounts").FindId(selector).One(&acc)
+	if err != nil {
+		fmt.Println("can't get bank acconut detail by bank account id")
+		return acc, err
+	}
+
+	return acc, nil
 }
 
 func (b *BankServiceImp) deleteBankAccByBankAccID(id string) error {
@@ -96,6 +109,11 @@ func (b *BankServiceImp) withdrawByAccID(t WithdrawDeposit) error {
 	if err != nil {
 		fmt.Println("can't get acc detail")
 		return err
+	}
+
+	if t.Amount > acc.Balance {
+		fmt.Println("The amount greater than balance")
+		return errors.New("The amount greater than balance")
 	}
 
 	t.Amount = acc.Balance - t.Amount

@@ -135,5 +135,7 @@ func (s *Server) withdraw(c *gin.Context) {
 }
 
 func (s *Server) transfer(c *gin.Context) {
+	var t Transfer
+	c.ShouldBindJSON(&t)
 
 }
