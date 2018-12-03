@@ -127,6 +127,22 @@ func (b *BankServiceImp) withdrawByAccID(t WithdrawDeposit) error {
 }
 
 func (b *BankServiceImp) transfer(t Transfer) error {
+	var wd WithdrawDeposit
+	wd.ID = bson.ObjectIdHex(t.From)
+	wd.Amount = t.Amount
+	err := b.withdrawByAccID(wd)
+	if err != nil {
+		fmt.Println("fail to minus From acc")
+		return err
+	}
+
+	wd.ID = bson.ObjectIdHex(t.To)
+	wd.Amount = t.Amount
+	err = b.depositByAccID(wd)
+	if err != nil {
+		fmt.Println("fail to add To acc")
+		return err
+	}
 
 	return nil
 }
