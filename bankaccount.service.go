@@ -8,6 +8,39 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+func (s *Server) authBankAPI(c *gin.Context) {
+
+}
+
+func (s *Server) addSecrets(c *gin.Context) {
+	var secret Secret
+	err := c.ShouldBindJSON(&secret)
+	if err != nil {
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"object":  "error",
+				"message": fmt.Sprintf("[addSecrets] json parse got error: %v", err),
+			})
+			return
+		}
+	}
+
+	err = s.bankService.addSecret(secret)
+	if err != nil {
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"object":  "error",
+				"message": fmt.Sprintf("[addSecrets] addSecret got error: %v", err),
+			})
+			return
+		}
+	}
+
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		"object": "success",
+	})
+}
+
 func (s *Server) addBankAccount(c *gin.Context) {
 	var acc UserBankAccountInsert
 	id := c.Param("id")
