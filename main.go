@@ -38,6 +38,7 @@ type BankService interface {
 	withdrawByAccID(WithdrawDeposit) error
 	getBacnkAccDetailByBankAccID(string) (UserBankAccount, error)
 	transfer(Transfer) error
+	rollBack(string, int) error
 }
 
 func main() {

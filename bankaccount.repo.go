@@ -130,3 +130,13 @@ func (b *BankServiceImp) transfer(t Transfer) error {
 
 	return nil
 }
+
+func (b *BankServiceImp) rollBack(id string, am int) error {
+	selector := bson.M{"_id": bson.ObjectIdHex(id)}
+	err := b.db.C("accounts").Update(selector, bson.M{"$set": bson.M{"amount": am}})
+	if err != nil {
+		fmt.Println("fail to roll back")
+		return err
+	}
+	return nil
+}
